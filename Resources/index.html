@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' file: data:; style-src 'unsafe-inline'; script-src 'self'; connect-src 'none'">
+<title>FlipWall</title>
+<style>
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#101210}
+*{box-sizing:border-box}
+#wall{--tile-gap:10px;--half-gap:calc(var(--tile-gap) / 2);position:absolute;inset:-2px;z-index:0;display:grid;gap:var(--tile-gap);padding:12px;background:#101210}
+.tile{min-width:0;min-height:0;perspective:1600px;position:relative;overflow:hidden;background:#171b17}
+.face{position:absolute;inset:0;overflow:hidden}
+.face img{display:block;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.flap{visibility:hidden;transform-origin:center top;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flap::after{content:"";position:absolute;inset:0;background:#000;opacity:var(--shade,0);pointer-events:none}
+.tile.peeling,.tile.landing{overflow:visible;z-index:1}
+.tile.peeling{perspective-origin:center calc(100% + var(--hinge-offset,0px))}
+.peeling .flap{bottom:calc(-1 * var(--hinge-offset,0px));padding-bottom:var(--hinge-offset,0px);transform-origin:center bottom;background:#171b17}
+.peeling.paired{--hinge-offset:var(--half-gap)}
+.tile.landing{perspective-origin:center calc(-1 * var(--half-gap))}
+.landing .flap{top:calc(-1 * var(--half-gap));padding-top:var(--half-gap);background:#171b17}
+#shade{position:absolute;inset:0;z-index:1;pointer-events:none;background-color:rgba(0,0,0,calc(1 - var(--brightness,.78)));background-image:radial-gradient(ellipse at 50% 45%,transparent 35%,rgba(0,0,0,.3))}
+</style>
+<script src="wallpaper.js" defer></script>
+</head>
+<body><main id="wall" aria-label="YouTube 科技封面动态壁纸"></main><div id="shade"></div></body>
+</html>
